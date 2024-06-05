@@ -1,0 +1,17 @@
+/* register -------------------------- */
+#board>.register form label{
+    display: inline-block;
+    width:100px;
+} 
+
+#board .item_list{
+    display: flex;
+    flex-wrap: wrap;
+    gap : 20px;
+
+}
+#board .item_list .item{
+    vertical-align: top;
+    display: inline-block;
+    border:1px solid #aaa;
+}

@@ -1,0 +1,41 @@
+*{
+    box-sizing: border-box;
+}
+#index{
+    width: 1000px;
+    padding:5px 20px;
+}
+#index header{
+    background-image: url("/images/bg3.png");
+    background-size: 100% 100%;
+    width:100%;
+    height:200px;
+    color:00f;
+    font-size: 2em;
+    padding:20px;
+    font-weight: bolder;
+    border:0px solid #aaa;
+}
+
+#index nav ul{
+    margin-top:0;
+    border:0px solid #000;
+    list-style: none;
+    display: flex;
+    gap : 0 20px;
+    justify-content: flex-end;
+}
+#index nav ul li{
+    padding:2px 5px;
+}
+#index nav ul>li:hover{
+    background: #999;
+}
+#index section{
+    min-height: 300px;;
+}
+#index footer{
+    background-color: #aaa;
+    width:100%;
+    height:150px;
+}
