@@ -20,12 +20,45 @@ public class BoardController {
         return mv;
     }
 
+    @RequestMapping(path="/view")
+    public ModelAndView view(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("board/view");
+        return mv;
+    }
+
     @RequestMapping(path="/register")
     public ModelAndView register(){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("board/register");
         return mv;
     }
+    @RequestMapping(path="/registerR")
+    public ModelAndView registerR(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("board/list");
+        return mv;
+    }
 
+    @RequestMapping(path="/update")
+    public ModelAndView update(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("board/update");
+        return mv;
+    }
+
+    @RequestMapping(path="/updateR")
+    public ModelAndView updateR(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("board/list");
+        return mv;
+    }
+
+    @RequestMapping(path="/deleteR")
+    public ModelAndView deleteR(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("board/list");
+        return mv;
+    }
 
 }

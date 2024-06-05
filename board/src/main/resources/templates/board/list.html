@@ -10,7 +10,7 @@
         <div id="board">
             <link rel="stylesheet" href="/css/board.css">
             <script type="module">
-                import { list } from "./js/board.js"
+                import { list , loadUrl } from "./js/board.js"
                 list();
             </script>
             <div class="search">
@@ -19,7 +19,7 @@
                 <button type="button" class="btnSearch">검색</button>
             </div>
             <div class="item_list">
-                <div class="items">
+                <div class="items" onclick="view(1)">
                     <img class='img' src="https://placehold.co/150x200">
                     <div class="item">
                         <span>NO</span><br/>
@@ -62,10 +62,9 @@
                         <span>조회수</span><br/>
                     </div>
                 </div>
-
-
             </div>
-
+            <button type="button" class="btnPrev">이전</button>
+            <button type="button" class="btnNext">다음</button>
         </div>
     </div>
 </body>
