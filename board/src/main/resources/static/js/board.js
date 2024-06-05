@@ -5,6 +5,8 @@ export function loadUrl(data){
         url    : data.url,
         type   : data.type,
         data   : data.data,
+        contentType : data.contentType,
+        processData : data.processData,
         success : (resp) =>{
             let temp = $(resp).find("#board")
             $(data.target).html(temp);
@@ -27,6 +29,18 @@ export function index(){
 }
 
 export function list(){
+
+    const view=(sno)=>{
+        let data = {
+            url : "/view",
+            type : "GET",
+            target : ".board"
+        }
+
+        loadUrl(data);  
+
+    }
+
     document.querySelector(".btnRegister").onclick = ()=>{
         let data = {
             url : "/register",
@@ -46,53 +60,133 @@ export function list(){
         }
         loadUrl(data);
     }
+    return { view }
 }
 
 
 
 export function register(){
-    let registerR = ()=>{
-        $.ajax({
-            url    : "/registerR",
-            type   : "GET",
-            data   : {"nowPage" : 1, "findStr" : ""},
-            success : (resp) =>{
-                let temp = $(resp).find("#board")
-                $('.board').html(temp);
-            }
-        })
-    }
-    let list = ()=>{
-        $.ajax({
-            url    : "/list",
-            type   : "GET",
-            data   : {"nowPage" : 1, "findStr" : ""},
-            success : (resp) =>{
-                let temp = $(resp).find("#board")
-                $('.board').html(temp);
-            }
-        })
-    }
-
     document.querySelector(".btnRegisterR").onclick = ()=>{
+        let frm;
         let data = {
             url : "/registerR",
             type : "POST",
             data : frm,
-            target : ".board"
+            target : ".board",
+            processData : false,
+            contentType : false
         }
-        
-    });
+        loadUrl(data);
+
+    };
 
     document.querySelector(".btnList").onclick = ()=>{
-
-    })
+        let frm;
+        let data = {
+            url : "/list",
+            type : "GET",
+            target : ".board",
+        }
+        loadUrl(data);
+    };
 }
 
-export function update(){}
-export function del(){}
-export function view(){}
+export function update(){
+    document.querySelector(".btnUpdateR").onclick = ()=>{
+        let frm;
+        let data = {
+            url : "/updateR",
+            type : "POST",
+            data : frm,
+            target : ".board",
+            processData : false,
+            contentType : false
+        }
+        loadUrl(data);
 
-export function repl(){}
+    };
+
+    document.querySelector(".btnList").onclick = ()=>{
+        let frm;
+        let data = {
+            url : "/list",
+            type : "GET",
+            target : ".board",
+        }
+        loadUrl(data);
+    };
+
+    document.querySelector(".btnAtt").onclick = ()=>{
+        console.log("file att")
+    }
+}
+
+export function view(){
+
+    document.querySelector(".btnUpdate").onclick = ()=>{
+        let frm;
+        let data = {
+            url : "/update",
+            type : "GET",
+            target : ".board",
+        }
+        loadUrl(data);
+    };
+    document.querySelector(".btnDeleteR").onclick = ()=>{
+        let frm;
+        let data = {
+            url : "/deleteR",
+            type : "POST",
+            target : ".board",
+        }
+        loadUrl(data);
+    };
+    document.querySelector(".btnRepl").onclick = ()=>{
+        let frm;
+        let data = {
+            url : "/repl",
+            type : "POST",
+            target : ".board",
+        }
+        loadUrl(data);
+    };
+    document.querySelector(".btnList").onclick = ()=>{
+        let frm;
+        let data = {
+            url : "/list",
+            type : "GET",
+            target : ".board",
+        }
+        loadUrl(data);
+    };
+
+
+}
+export function repl(){
+    document.querySelector(".btnReplR").onclick = ()=>{
+        let frm;
+        let data = {
+            url : "/replR",
+            type : "POST",
+            target : ".board",
+        }
+        loadUrl(data);
+    };
+    document.querySelector(".btnList").onclick = ()=>{
+        let frm;
+        let data = {
+            url : "/list",
+            type : "GET",
+            target : ".board",
+        }
+        loadUrl(data);
+    };
+
+    document.querySelector(".btnAtt").onclick = ()=>{
+        console.log("file att")
+    }
+
+}
+export function del(){}
 
 

@@ -61,4 +61,20 @@ public class BoardController {
         return mv;
     }
 
+
+    @RequestMapping(path="/repl")
+    public ModelAndView repl(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("board/repl");
+        return mv;
+    }
+
+    @RequestMapping(path="/replR")
+    public ModelAndView replR(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("board/list");
+        return mv;
+    }
+
+
 }
