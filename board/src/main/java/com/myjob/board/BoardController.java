@@ -13,6 +13,19 @@ public class BoardController {
         mv.setViewName("index");
         return mv;
     }
+    @RequestMapping(path="/list")
+    public ModelAndView list(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("board/list");
+        return mv;
+    }
+
+    @RequestMapping(path="/register")
+    public ModelAndView register(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("board/register");
+        return mv;
+    }
 
 
 }

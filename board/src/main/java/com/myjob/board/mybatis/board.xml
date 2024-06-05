@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper      
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"      
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+    <select id="totSize" parameterType="String" resultType="Integer">
+        select count(sno) from board
+        where subject   like '%${_parameter}%'
+        or    doc       like '%${_parameter}%'
+        or    id        like '%${_parameter}%'
+        
+    </select>
+    <select id="search" parameterType="Page" resultType="BoardVo">
+        select sno, id, subject, hit, nal  from board
+        where subject   like '%${_parameter}%'
+        or    doc       like '%${_parameter}%'
+        or    id        like '%${_parameter}%'
+        order by grp desc, seq asc
+        limit #{startNo}, #{listSize}
+    </select>
+
+    <select id="view" parameterType="Integer" resultType="BoardVo">
+        select * from board
+        where sno = #{_parameter}
+    </select>
+    <select id="att" parameterType="Integer" resultType="BoardAtt">
+        select sno, pSno, oriFile, sysFile from boardAtt
+        where pSno=#{_parameter}
+    </select>
+
+    <select id="getSerial" resultType="Integer">
+        select getSerial('i') 
+    </select>
+    <insert id="register" parameterType="BoardVo">
+        insert into board(id, subject, doc, nal, hit, sno, grp, seq, deep, psno )
+        values(#{id}, #{subject}, #{doc}, now(), 0, #{sno}, #{sno} #{seq}, #{deep}, #{sno});
+
+        <if test="attFiles != null">
+            insert into boardAtt(pSno, oriFile, sysFile) values 
+            <foreach collection="attFiles" item="p" separator=",">
+                (#{sno}, #{p.oriFile}, #{p.sysFile})
+            </foreach>
+        </if>
+    </insert>
+
+    <update id="update" parameterType="BoardVo">
+        update board set subject=#{subject}, doc=#{doc}
+        where id=#{sno};
+        <if test="attFiles != null">
+            insert into boardAtt(pSno, oriFile, sysFile) values 
+            <foreach collection="attFiles" item="p" separator=",">
+                (#{sno}, #{p.oriFile}, #{p.sysFile})
+            </foreach>
+        </if>
+    </update>
+
+
+    <delete id="delete_board" parameterType="Integer">
+        delete from board where sno=#{_parameter}
+    </delete>
+    <delete id="delete_boardAtt" parameterType="Integer">
+        delete from boardAtt where pSno=#{_parameter}
+    </delete>
+
+    <delete id="delete_files" parameterType="java.util.List">
+        delete from boardAtt where sysFile in
+        <foreach collection="list" item="file"  open="(" close=")" separator=",">
+            #{file}
+        </foreach>
+    </delete>
+
+
+</mapper>
+
+

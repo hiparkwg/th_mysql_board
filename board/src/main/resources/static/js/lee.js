@@ -1,31 +1,14 @@
-/* 리터널을 사용한 충돌 방지 */
-
-const lee = {}
- 
-lee.update = ()=>{
-    console.log("update")
+/* ES6 모듈을 사용한 충돌 방지 */
+export function lee(){
+    let del = ()=>{
+        console.log("delete...")
+    }
+    let repl = ()=>{
+        console.log("reple...")
+    }
+    document.querySelector(".del").onclick=del;
+    document.querySelector(".repl").onclick=repl;
 }
 
-lee.repl = ()=>{
-    console.log("repl")
-}
-
-document.querySelector(".btnUpdate").onclick = lee.update;
-document.querySelector(".btnRepl").onclick = lee.repl;
-
-/* 객체 리터럴 */
-
-const hong = {
-    init : function(){
-        document.querySelector(".btnList").onclick = this.list;
-        document.querySelector(".btnDelete").onclick = this.del;
-    },
-    list : ()=>{
-        console.log("list")
-    },
-    del : ()=>{
-        console.log("delete")
-    },
-   
-}
-hong.init();
+export function another1(){}
+export function another2(){}

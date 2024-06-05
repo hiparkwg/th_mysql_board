@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>board</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"  crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/index.css">
+    <script type="module">
+        import { index } from "./js/board.js";
+        index();
+    </script>
 </head>
 <body>
     <div id="index">
@@ -14,10 +19,10 @@
                 <li>Menu1</li>
                 <li>Menu2</li>
                 <li>Menu3</li>
-                <li>게시판</li>
+                <li class="menuBoard">게시판</li>
             </ul>
         </nav>
-        <section></section>
+        <section class="board"></section>
         <footer></footer>
     </div>    
 </body>
