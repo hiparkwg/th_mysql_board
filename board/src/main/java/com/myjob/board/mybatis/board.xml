@@ -14,9 +14,9 @@
     </select>
     <select id="search" parameterType="Page" resultType="BoardVo">
         select sno, id, subject, hit, nal  from board
-        where subject   like '%${_parameter}%'
-        or    doc       like '%${_parameter}%'
-        or    id        like '%${_parameter}%'
+        where subject   like '%${findStr}%'
+        or    doc       like '%${findStr}%'
+        or    id        like '%${findStr}%'
         order by grp desc, seq asc
         limit #{startNo}, #{listSize}
     </select>
@@ -25,25 +25,30 @@
         select * from board
         where sno = #{_parameter}
     </select>
-    <select id="att" parameterType="Integer" resultType="BoardAtt">
+
+    <select id="attFiles" parameterType="Integer" resultType="BoardAtt">
         select sno, pSno, oriFile, sysFile from boardAtt
         where pSno=#{_parameter}
     </select>
 
+    <!-- register, repl -->
     <select id="getSerial" resultType="Integer">
         select getSerial('i') 
     </select>
+
     <insert id="register" parameterType="BoardVo">
         insert into board(id, subject, doc, nal, hit, sno, grp, seq, deep, psno )
         values(#{id}, #{subject}, #{doc}, now(), 0, #{sno}, #{sno} #{seq}, #{deep}, #{sno});
-
-        <if test="attFiles != null">
-            insert into boardAtt(pSno, oriFile, sysFile) values 
-            <foreach collection="attFiles" item="p" separator=",">
-                (#{sno}, #{p.oriFile}, #{p.sysFile})
-            </foreach>
-        </if>
     </insert>
+
+    <!-- regiseter, update, repl -->
+    <insert id="registerAtt" paramenterType="Map">
+        <foreach collection="attFiles" item="p" separator=",">
+            insert into boardAtt(pSno, oriFile, sysFile) 
+            values (#{sno}, #{p.oriFile}, #{p.sysFile})
+        </foreach>
+    </insert>
+
 
     <update id="update" parameterType="BoardVo">
         update board set subject=#{subject}, doc=#{doc}

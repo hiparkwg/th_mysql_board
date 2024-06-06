@@ -1,5 +1,7 @@
 package com.myjob.board;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data

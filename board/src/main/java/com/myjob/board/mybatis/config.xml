@@ -21,6 +21,6 @@
 		</environment>
 	</environments>
 	<mappers>
-		<mapper resource="com/myjob/member/mybatis/board.xml" />
+		<mapper resource="com/myjob/board/mybatis/board.xml" />
 	</mappers>
 </configuration>
