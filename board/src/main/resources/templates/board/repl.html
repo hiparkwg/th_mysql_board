@@ -11,7 +11,7 @@
             <link rel="stylesheet" href="/css/board.css">
 
             <script type="module">
-                import { repl, loadUrl } from "./js/board.js";
+                import { repl } from "./js/board.js";
                 repl();
             </script> 
 
@@ -23,9 +23,14 @@
                     <input type="text" name="subject"><br/>
                     <textarea name="doc"></textarea><br/>
                     <label>파일첨부</label>
-                    <input type="file" name="files" class="btnAtt"><br/>
+                    <input type="file" name="files" class="btnAtt" multiple><br/>
                     <button type="button" class="btnReplR">작성</button>
                     <button type="button" class="btnList">취소</button>
+
+                    <input type="text" name="sno" th:value="${vo.sno}"/>
+                    <input type="text" name="grp" th:value="${vo.grp}"/>
+                    <input type="hidden" name="seq" th:value="${vo.seq}"/>
+                    <input type="hidden" name="deep" th:value="${vo.deep}"/>
                 </form>
             </div>
         </div>

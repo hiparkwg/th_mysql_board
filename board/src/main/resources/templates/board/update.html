@@ -10,24 +10,28 @@
         <div id="board">
             <link rel="stylesheet" href="/css/board.css">
             <script type="module">
-                import { update, loadUrl } from "./js/board.js";
+                import { update } from "./js/board.js";
                 update();
             </script>         
             <div class="register">
                 <form name="frmBoard" method="POST" enctype="multipart/form-data">
                     <label>아이디</label>
-                    <input type="text" name="id"><br/>
+                    <input type="text" name="id" th:value="${vo.id}"><br/>
                     <label>제목 </label>
-                    <input type="text" name="subject"><br/>
-                    <textarea name="doc"></textarea><br/>
+                    <input type="text" name="subject" th:value="${vo.subject}"><br/>
+                    <textarea name="doc">[[${vo.doc}]]</textarea><br/>
                     <label>파일첨부</label>
-                    <input type="file" name="files" class="btnAtt"><br/>
+                    <input type="file" name="files" class="btnAtt" multiple><br/>
                     <fieldset>
                         <legend>이미 첨부됨</legend>
-                        
+                        <th:block th:each="att : ${attFiles}">
+                            <label><input type="checkbox" name="delFiles"  th:value="${att.sysFile}" >[[${att.oriFile}]]</label><br/>
+                        </th:block>
                     </fieldset>
-                    <button type="button" class="btnUpdateR">작성</button>
-                    <button type="button" class="btnList">취소</button>
+                    <div class="btnZone">
+                        <button type="button" class="btnUpdateR">수정</button>
+                        <button type="button" class="btnList">취소</button>
+                    </div>
                 </form>
             </div>
         </div>

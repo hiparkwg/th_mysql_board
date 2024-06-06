@@ -37,6 +37,11 @@
                     <button type="button" class="btnDeleteR">삭제</button>
                     <button type="button" class="btnRepl">댓글</button>
                     <button type="button" class="btnList">취소</button>
+
+                    <input type="hidden" name="sno" th:value="${vo.sno}"/>
+                    <input type="hidden" name="grp" th:value="${vo.grp}"/>
+                    <input type="hidden" name="seq" th:value="${vo.seq}"/>
+                    <input type="hidden" name="deep" th:value="${vo.deep}"/>
                 </form>
             </div>
         </div>

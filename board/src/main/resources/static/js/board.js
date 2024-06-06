@@ -165,25 +165,47 @@ export function register(){
     };
 }
 
+// -----------------------------------------------
+// 게시판 수정하기
+// -----------------------------------------------
 export function update(){
+    let board = JSON.parse(sessionStorage.getItem("board"));
+
     document.querySelector(".btnUpdateR").onclick = ()=>{
-        let frm;
-        let data = {
+        let temp = document.frmBoard;
+        let tag = document.createElement("input");
+        tag.name = "sno";
+        tag.type = "hidden";
+        tag.value = board.sno;
+        
+        temp.appendChild(tag);
+        let frm = new FormData(temp);
+
+        $.ajax({
             url : "/updateR",
             type : "POST",
-            param : frm,
+            data : frm,
             processData : false,
-            contentType : false
-        }
-        loadUrl(data);
+            contentType : false,
+            success : (resp)=>{
+                console.log("update result : ", resp);
+                let data = {
+                    url    : "/list",
+                    type   : "GET",
+                    param  : {"nowPage" : board.nowPage, "findStr" : board.findStr}
+                }
+                loadUrl(data);
+            }
+
+        })
 
     };
 
     document.querySelector(".btnList").onclick = ()=>{
-        let frm;
         let data = {
             url : "/list",
             type : "GET",
+            param : {"nowPage" : board.nowPage, "findStr" : board.findStr}
         }
         loadUrl(data);
     };
@@ -200,33 +222,53 @@ export function update(){
 // -----------------------------------------------
 export function view(){
     let temp = sessionStorage.getItem("board");
-    console.log("111",temp);
     let board = JSON.parse(temp);
 
     document.querySelector(".btnUpdate").onclick = ()=>{
-        let frm;
         let data = {
             url : "/update",
             type : "GET",
+            param : {"sno" :  board.sno}
         }
         loadUrl(data);
     };
+
+
     document.querySelector(".btnDeleteR").onclick = ()=>{
-        let frm;
-        let data = {
+        let yn = confirm("삭제?");
+        if( !yn ) return;
+
+
+        $.ajax({
             url : "/deleteR",
-            type : "POST",
-        }
-        loadUrl(data);
+            type : "GET",
+            data : {"sno" : board.sno},
+            success : (resp)=>{
+                let data = {
+                    url    : "/list",
+                    type   : "GET",
+                    param  : {"nowPage" : board.nowPage, "findStr" : board.findStr}
+                }
+                loadUrl(data);
+            }
+        })
+       
     };
+
     document.querySelector(".btnRepl").onclick = ()=>{
-        let frm;
+        let frm = document.frmBoard;
+        let grp = frm.grp.value;
+        let seq = frm.seq.value;
+        let deep = frm.deep.value;
         let data = {
             url : "/repl",
             type : "POST",
+            param : { "sno" : board.sno, "grp" : grp, "seq" : seq, "deep" : deep}
         }
         loadUrl(data);
     };
+
+
     document.querySelector(".btnList").onclick = ()=>{
         let data = {
             url : "/list",
@@ -238,19 +280,37 @@ export function view(){
 
 
 }
+
+// -----------------------------------------------
+// 게시판 댓글
+// -----------------------------------------------
 export function repl(){
     let temp = sessionStorage.getItem("board");
     console.log("111",temp);
     let board = JSON.parse(temp);
 
     document.querySelector(".btnReplR").onclick = ()=>{
-        let frm;
-        let data = {
+        let temp = document.frmBoard;
+        let frm = new FormData(temp);
+        $.ajax({
             url : "/replR",
             type : "POST",
-        }
-        loadUrl(data);
-    };
+            data : frm,
+            processData : false,
+            contentType : false,
+            success : (resp)=>{
+                console.log("repl result : ", resp);
+                let board = JSON.parse(sessionStorage.getItem("board"));
+                let data = {
+                    url    : "/list",
+                    type   : "GET",
+                    param  : {"nowPage" : board.nowPage, "findStr" : board.findStr}
+                }
+                loadUrl(data);
+            }
+        }) 
+
+    }
     document.querySelector(".btnList").onclick = ()=>{
         let frm;
         let data = {
