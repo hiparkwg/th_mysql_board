@@ -49,7 +49,7 @@
     <insert id="registerAtt" parameterType="Map">
         insert into boardAtt(pSno, oriFile, sysFile) values
         <foreach collection="attFiles" item="p" separator=",">
-            (#{sno}, #{p.oriFile}, #{p.sysFile})
+            (#{pSno}, #{p.oriFile}, #{p.sysFile})
         </foreach>
     </insert>
 
