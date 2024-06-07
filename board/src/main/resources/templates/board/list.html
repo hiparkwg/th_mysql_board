@@ -22,14 +22,21 @@
                 <button type="button" class="btnSearch">검색</button>
             </div>
             <div class="item_list">
+                <div class="item_title">
+                    <span>SNO</span>
+                    <span>작성자</span>
+                    <span>제목</span>
+                    <span>작성일</span>
+                    <span>조회수</span>
+                </div>
+
                 <div class="items" th:onclick = "ls.view([[${vo.sno}]])" th:each="vo : ${map.list}">
-                    <img class='img' src="https://placehold.co/150x200">
                     <div class="item">
-                        <span>SNO</span>[[${vo.sno}]]<br/>
-                        <span>작성자</span>[[${vo.id}]]<br/>
-                        <span>제목</span>[[${vo.subject}]]<br/>
-                        <span>작성일</span>[[${vo.nal}]]<br/>
-                        <span>조회수</span>[[${vo.hit}]]<br/>
+                        <span>[[${vo.sno}]]</span>
+                        <span>[[${vo.id}]]</span>
+                        <span th:utext = "${vo.subject}"></span>
+                        <span>[[${vo.nal}]]</span>
+                        <span>[[${vo.hit}]]</span>
                     </div>
                 </div>
             </div>

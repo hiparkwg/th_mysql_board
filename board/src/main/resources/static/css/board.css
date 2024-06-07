@@ -5,9 +5,6 @@
 } 
 
 #board .item_list{
-    display: flex;
-    flex-wrap: wrap;
-    gap : 20px;
 
 }
 #board .item_list .item{

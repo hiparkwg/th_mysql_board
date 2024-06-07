@@ -25,6 +25,7 @@ public class BoardDao {
             int sno = session.selectOne("board.getSerial");
             vo.setSno(sno);
             vo.setPSno(sno);
+            vo.setGrp(sno);
             int cnt = session.insert("board.register", vo);
             if(cnt<=0) throw new Exception();
 
@@ -35,20 +36,25 @@ public class BoardDao {
                 cnt = session.insert("board.registerAtt", map);
                 if(cnt<=0) throw new Exception();
             }
-
             msg = "정상 저장됨.";
+            
             session.commit();
 
-
         }catch(Exception ex){
+            // 이미 업로드된 파일 삭제
+            if(attFiles.size()>0){
+                List<String> delList = new ArrayList<>();
+                for(BoardAtt att : attFiles){
+                    delList.add(att.getSysFile());
+                }
+                for(String f : delList){
+                    File file = new File( BoardController.uploadPath+f);
+                    if(file.exists()) file.delete();
+                }
+            }
+
             session.rollback();
             msg = "저장 중 오류 발생";
-            // 이미 업로드된 파일 삭제
-            List<String> delList = new ArrayList<>();
-            for(BoardAtt att : attFiles){
-                delList.add(att.getSysFile());
-            }
-            attFileDelete(delList);
         }
 
         session.close();
@@ -92,98 +98,89 @@ public class BoardDao {
         String msg = null;
         session = new MyFactory().getSession();
 
-        // 본문 수정
-        int updateCnt = session.update("board.update", vo);
-        int addAttCnt = 0;
-        int delAttCnt = 0;
-        
-        if(updateCnt>0){
-            
+
+        try{
+            // 본문 수정
+            int cnt = session.update("board.update", vo);
+            if(cnt<=0) throw new Exception();
+
             // 추가 파일 정보 저장
             if(attFiles.size()>0){
                 Map<String, Object> map = new HashMap<>();
                 map.put("pSno", vo.getSno());
                 map.put("attFiles", attFiles);
 
-                addAttCnt = session.insert("board.registerAtt", map);
+                cnt = session.insert("board.registerAtt", map);
+                if(cnt<=0) throw new Exception();
             }
 
-            // 삭제 선택된 파일 삭제
-            if(addAttCnt == attFiles.size()){
-                if(delFiles != null && delFiles.length>0){
-                    List<String> del = Arrays.asList(delFiles);
-                    delAttCnt = attFileDelete(session, del);
-                }
-            }
+             // 삭제 선택된 파일 삭제
+            if(delFiles != null && delFiles.length>0){
+                List<String> del = Arrays.asList(delFiles);
+                cnt = session.delete("board.delete_files", del);
+                if(cnt != del.size()) throw new Exception();
 
-        }
-        
-        if(updateCnt>0 && addAttCnt==attFiles.size() && (delAttCnt==delFiles.length || delFiles == null) ){
-            msg = "수정 정상";
-            session.commit();
-        }else{
-            // 이미 업로드된 파일 삭제하기
-            if(attFiles.size()>0){
-                List<String> del = new ArrayList<>();
-                for(BoardAtt att : attFiles){
-                    del.add(att.getSysFile());
-                }
                 for(String f : del){
                     File file = new File( BoardController.uploadPath+f);
                     if(file.exists()) file.delete();
                 }
             }
 
-            msg = "저장중 오류 발생";
-            session.rollback();
-           
-        }
+            session.commit();
+            msg = "수정 잘 됨";
 
+        }catch(Exception ex){
+            session.rollback();
+            msg = "저장 중 오류 발생";
+
+            // 이미 업로드된 파일 삭제
+            List<String> delList = new ArrayList<>();
+            for(BoardAtt att : attFiles){
+                delList.add(att.getSysFile());
+            }
+            for(String f : delList){
+                File file = new File( BoardController.uploadPath+f);
+                if(file.exists()) file.delete();
+            }
+        }
       
         session.close();
         return msg;
 
     }    
 
-    // 이미 업로드된 파일 삭제나 삭제체크된 파일 삭제
-    public void attFileDelete(List<String> delFiles){
-
-        for(String f : delFiles){
-            File file = new File( BoardController.uploadPath+f);
-            if(file.exists()) file.delete();
-        }
-    }
- 
-
-
 
 
     public String deleteR(Integer sno){
-        String msg = "delete OK";
+        String msg = null;
         session = new MyFactory().getSession();
 
-        // board 삭제
-        int cnt = session.delete("board.delete_board", sno);
+        try{
+            // board 삭제
+            int cnt = session.delete("board.delete_board", sno);
+            if(cnt<=0) throw new Exception();
 
-        // 삭제할 파일 가져오기
-        List<String> delFiles = session.selectList("board.select_delfiles", sno);
-        
-        // boardAtt 삭제
-        int cntAtt = session.delete("board.delete_boardAtt", sno);
+            // 삭제할 파일 가져오기
+            List<String> delFiles = session.selectList("board.select_delfiles", sno);
+            
+            // boardAtt 삭제
+            if(delFiles.size()>0){
+                cnt = session.delete("board.delete_boardAtt", sno);
+                if(cnt <=0) throw new Exception();
 
-        System.out.printf("%s, %s, %s\n", cnt, delFiles.size(), cntAtt);
+                for(String f : delFiles){
+                    File file = new File(BoardController.uploadPath + f);
+                    if(file.exists()) file.delete();
+                }
+            }                
 
-        if(cnt>0 && delFiles.size()==cntAtt){
+            msg = "삭제 잘됨.";
             session.commit();
-            // 파일 삭제
-            for(String f : delFiles){
-                File file = new File(BoardController.uploadPath + f);
-                if(file.exists()) file.delete();
-            }
-        }else{
+
+        }catch(Exception ex){
+            msg = "삭제중 오류 발생";
             session.rollback();
         }
-
 
         session.close();
         return msg;
@@ -193,29 +190,49 @@ public class BoardDao {
         String msg = "정상처리됨";
         session = new MyFactory().getSession();
 
-        vo.setPSno(vo.getSno());
-        int sno = session.selectOne("board.getSerial");
-        vo.setSno(sno);
+        try{
+            vo.setPSno(vo.getSno());
 
-        // seq값 증가
-        session.update("board.seq_up", vo);
-        vo.setSeq(vo.getSeq()+1);
-        vo.setDeep(vo.getDeep()+1);
+            int sno = session.selectOne("board.getSerial");
+            vo.setSno(sno);
 
+            // seq값 증가
+            session.update("board.seq_up", vo);
+            vo.setSeq(vo.getSeq()+1);
+            vo.setDeep(vo.getDeep()+1);
 
-        int cnt = session.insert("board.register", vo);
-        if(cnt>0){
+            int cnt = session.insert("board.register", vo);
+            if(cnt<=0) throw new Exception();
+
             if(attFiles.size()>0){
                 Map<String, Object> map = new HashMap<>();
-                map.put("sno", sno);
+                map.put("pSno", sno);
                 map.put("attFiles", attFiles);
-                session.insert("board.registerAtt", map);
-                session.commit();
-            }else{
-                msg = "저장중 오류 발생";
-                session.rollback();
+                cnt = session.insert("board.registerAtt", map);
+                if(cnt<=0) throw new Exception();
+                
             }
+
+            session.commit();
+        }catch(Exception ex){
+
+            // 이미 업로드된 파일 삭제
+            if(attFiles.size()>0){
+                List<String> delList = new ArrayList<>();
+                for(BoardAtt att : attFiles){
+                    delList.add(att.getSysFile());
+                }
+                for(String f : delList){
+                    File file = new File( BoardController.uploadPath+f);
+                    if(file.exists()) file.delete();
+                }
+            }
+
+            session.rollback();
+            msg = "저장 중 오류 발생";
+
         }
+
         session.close();
         return msg;
 
