@@ -30,6 +30,7 @@ export function index(){
         sessionStorage.setItem("board", JSON.stringify(board));
         loadUrl(data);
     }
+    document.querySelector(".menuBoard").click();
 }
 
 // ---------------------------------------------------------------

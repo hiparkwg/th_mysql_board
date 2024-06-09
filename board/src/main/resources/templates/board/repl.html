@@ -21,14 +21,18 @@
                     <input type="text" name="id"><br/>
                     <label>제목 </label>
                     <input type="text" name="subject"><br/>
-                    <textarea name="doc"></textarea><br/>
+                    <textarea name="doc" class="doc"></textarea><br/>
                     <label>파일첨부</label>
                     <input type="file" name="files" class="btnAtt" multiple><br/>
-                    <button type="button" class="btnReplR">작성</button>
-                    <button type="button" class="btnList">취소</button>
 
-                    <input type="text" name="sno" th:value="${vo.sno}"/>
-                    <input type="text" name="grp" th:value="${vo.grp}"/>
+                    <div class="btnZone">
+                        <button type="button" class="btnReplR">작성</button>
+                        <button type="button" class="btnList">취소</button>
+                    </div>
+
+                    <input type="hidden" name="sno" th:value="${vo.sno}"/>
+                    <input type="hidden" name="grp" th:value="${vo.grp}"/>
+
                     <input type="hidden" name="seq" th:value="${vo.seq}"/>
                     <input type="hidden" name="deep" th:value="${vo.deep}"/>
                 </form>

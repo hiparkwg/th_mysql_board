@@ -13,8 +13,8 @@
         
     </select>
     <select id="search" parameterType="Page" resultType="BoardVo">
-        select sno, id, hit, nal,
-            concat(lpad(' ', deep*6, <![CDATA['&nbsp;&nbsp;']]>), subject) subject
+        select sno, id, hit, date_format(nal, '%Y-%m-%d') nal,
+            concat(lpad(' ', deep*12, <![CDATA['&nbsp;&nbsp;']]>), subject) subject
         from board
         where subject   like '%${findStr}%'
         or    doc       like '%${findStr}%'

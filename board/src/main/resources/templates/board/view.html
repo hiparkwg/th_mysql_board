@@ -18,9 +18,8 @@
                 <form name="frmBoard" method="POST" enctype="multipart/form-data">
                     <label>아이디</label>
                     <span>[[${vo.id}]]</span><br/>
-                    <label>제목 </label>
-                    <span>[[${vo.subject}]]</span><br/>
-                    <div class="doc">
+                    <span class="view_subject">[[${vo.subject}]]</span><br/>
+                    <div class="view_doc">
                         [[${vo.doc}]]
                     </div><br/>
 
@@ -32,11 +31,13 @@
                             </li>
                         </ul>
                     </fieldset>
-
-                    <button type="button" class="btnUpdate">수정</button>
-                    <button type="button" class="btnDeleteR">삭제</button>
-                    <button type="button" class="btnRepl">댓글</button>
-                    <button type="button" class="btnList">취소</button>
+                    
+                    <div class="btnZone">
+                        <button type="button" class="btnUpdate">수정</button>
+                        <button type="button" class="btnDeleteR">삭제</button>
+                        <button type="button" class="btnRepl">댓글</button>
+                        <button type="button" class="btnList">취소</button>
+                    </div>
 
                     <input type="hidden" name="sno" th:value="${vo.sno}"/>
                     <input type="hidden" name="grp" th:value="${vo.grp}"/>

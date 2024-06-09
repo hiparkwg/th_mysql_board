@@ -23,20 +23,20 @@
             </div>
             <div class="item_list">
                 <div class="item_title">
-                    <span>SNO</span>
-                    <span>작성자</span>
-                    <span>제목</span>
-                    <span>작성일</span>
-                    <span>조회수</span>
+                    <span class="no">SNO</span>
+                    <span class="id">작성자</span>
+                    <span class="subject">제목</span>
+                    <span class="nal">작성일</span>
+                    <spanc class="hit">조회수</span>
                 </div>
 
                 <div class="items" th:onclick = "ls.view([[${vo.sno}]])" th:each="vo : ${map.list}">
                     <div class="item">
-                        <span>[[${vo.sno}]]</span>
-                        <span>[[${vo.id}]]</span>
-                        <span th:utext = "${vo.subject}"></span>
-                        <span>[[${vo.nal}]]</span>
-                        <span>[[${vo.hit}]]</span>
+                        <span class="no">[[${vo.sno}]]</span>
+                        <span class="id">[[${vo.id}]]</span>
+                        <span class="subject" th:utext = "${vo.subject}"></span>
+                        <span class="nal">[[${vo.nal}]]</span>
+                        <span class="hit">[[${vo.hit}]]</span>
                     </div>
                 </div>
             </div>

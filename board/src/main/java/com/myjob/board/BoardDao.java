@@ -28,7 +28,7 @@ public class BoardDao {
             vo.setGrp(sno);
             int cnt = session.insert("board.register", vo);
             if(cnt<=0) throw new Exception();
-
+            
             if(attFiles.size()>0){
                 Map<String, Object> map = new HashMap<>();
                 map.put("pSno", sno);

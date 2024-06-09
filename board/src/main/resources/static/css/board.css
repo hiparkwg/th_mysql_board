@@ -1,16 +1,36 @@
-/* register -------------------------- */
-#board>.register form>label{
-    display: inline-block;
-    width:100px;
-} 
 
-#board .item_list{
 
+/* board list ---------------------------*/
+#board .search{
+    text-align: right;
 }
-#board .item_list .item{
-    vertical-align: top;
-    display: inline-block;
-    border:1px solid #aaa;
+
+#board .item_list .item_title, #board .item_list .item{
+    display:flex;
+    line-height: 1.8em;
+}
+
+#board .item_list .item_title{
+    background-color: #aaa;
+    margin:4px 0;
+    padding:1px;
+}
+
+#board .item_list .items:last-child{
+    border-bottom : 2px solid #aaa;
+}
+
+#board .item_list span.no{ width: 80px; }
+#board .item_list span.id{ width: 120px; }
+#board .item_list span.subject{  
+    flex-grow: 1;
+}
+#board .item_list span.nal{ width: 120px; }
+#board .item_list span.hit{ 
+    width:80px;
+    text-align: right;
+    padding-right:15px;
+
 }
 
 #board .item_list .item:hover{
@@ -19,7 +39,7 @@
 
 /* 이전 다음 버튼 활성화/비활성화 */
 #board .btnZone{
-    margin-top:20px;
+    margin:20px;
     text-align: center;
 }
 #board .btnEnabled{
@@ -29,4 +49,42 @@
 #board .btnDisabled{
     pointer-events: none;
     border:0
+}
+
+
+/* register -------------------------- */
+#board>.register{
+    display: flex;
+    justify-content: center;
+    margin-top : 50px;
+
+}
+#board>.register form>label{
+    display: inline-block;
+    width:70px;
+} 
+#board .register  .doc{
+    width:600px;
+    height:300px;
+    margin: 3px 0;
+}
+
+/* view -------------------------- */
+#board .register  .view_subject{
+    display: inline-block;
+    background-color: #eee;
+    width: 100%;
+    border-bottom : 2px solid #aaa;
+    margin-top:10px;
+    padding:3px;
+}
+
+#board .register  .view_doc{
+    width:600px;
+    height:300px;
+    margin: 15px 10px;
+    background-color: #eee;
+    border:2px solid #aaa;
+    padding:20px;
+    border-radius: 10px;
 }
