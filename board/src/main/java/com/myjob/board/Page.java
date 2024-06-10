@@ -6,7 +6,7 @@ import lombok.Data;
 public class Page {
     int nowPage;
     int startNo, endNo;
-    int listSize=4;
+    int listSize=10;
     int totSize;
     String findStr; 
 

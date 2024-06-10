@@ -18,6 +18,11 @@
     border:0px solid #aaa;
 }
 
+#index nav{
+    background-color: cornflowerblue;
+    color : #ff0;
+}
+
 #index nav ul{
     margin-top:0;
     border:0px solid #000;
@@ -30,7 +35,9 @@
     padding:2px 5px;
 }
 #index nav ul>li:hover{
-    background: #999;
+    background: #009;
+    color : #ff0;
+    cursor: pointer;
 }
 #index section{
     min-height: 300px;;
