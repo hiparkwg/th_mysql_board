@@ -27,7 +27,7 @@
                         <legend>첨부파일</legend>
                         <ul >
                             <li th:each="att : ${attFiles}">
-                                <a th:href="|upload/${att.sysFile}|" th:download="${att.sysFile}" >[[${att.oriFile}]]</a>
+                                <a th:href="|upload/${att.sysFile}|" th:download="${att.oriFile}" >[[${att.oriFile}]]</a>
                             </li>
                         </ul>
                     </fieldset>
